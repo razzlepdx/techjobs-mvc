@@ -22,20 +22,20 @@ public class SearchController {
         model.addAttribute("columns", ListController.columnChoices);
         return "search";
     }
-    
+
     //    Display search results based on user selections - sends results to search view
     @RequestMapping (value = "results")
     public String results(Model model, @RequestParam String searchType, @RequestParam String searchTerm) {
         if (searchType.equals("all")) {
             ArrayList<HashMap<String, String>> jobs = JobData.findByValue(searchTerm);
+            model.addAttribute("title", "All Jobs");
             model.addAttribute("jobs", jobs);
-            model.addAttribute("columns", ListController.columnChoices);
         }
         else {
             ArrayList<HashMap<String, String>> jobs = JobData.findByColumnAndValue(searchType, searchTerm);
             model.addAttribute("jobs", jobs);
-            model.addAttribute("columns", ListController.columnChoices);
         }
+        model.addAttribute("columns", ListController.columnChoices);
         return "search";
     }
 }
