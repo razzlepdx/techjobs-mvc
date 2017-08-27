@@ -36,8 +36,20 @@
 
     <hr />
 
-    <!-- TODO #2 - Loop over jobs map to display all job fields -->
+    <!--Alert User if no results were found for their search.-->
+    <p th:if="!${jobs} or !${jobs.size()}">No results found.  Please try again.</p>
 
+    <!--Display job results-->
+    <div th:if="${jobs} and ${jobs.size()}">
+        <!--Each job takes up a separate table, with one field per row-->
+        <table th:each="job, idx : ${jobs}" th:class="job-listing">
+            <tr th:each="idx : ${job}">
+                <td th:text="${#strings.capitalize(idx.key)}"></td>
+                <td th:text="${idx.value}"></td>
+            </tr>
+        </table>
+
+    </div>
 </div>
 
 </body>
