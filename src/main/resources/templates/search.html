@@ -15,12 +15,18 @@
 
         <p>
             <span th:each="column : ${columns}">
-                <input
+                <input  th:unless="${checked}"
                         type="radio"
                         name="searchType"
                         th:id="${column.key}"
                         th:value="${column.key}"
                         th:checked="${column.key == 'all'}"/>
+                <input  th:if="${checked}"
+                        type="radio"
+                        name="searchType"
+                        th:id="${column.key}"
+                        th:value="${column.key}"
+                        th:checked="${column.key == checked}" />
                 <label th:for="${column.key}" th:text="${column.value}"></label>
             </span>
 
@@ -34,12 +40,18 @@
         <input type="submit" value="Search" />
     </form>
 
-    <hr />
+    <hr/>
 
     <!--Display job results-->
     <div th:fragment="list-jobs">
-        <h3 th:text="${jobs.size()} + ' Result(s):'"></h3>
+        <!--For 0 search results, give user feedback message-->
+        <div th:if="${jobs} and ${jobs.size() == 0}">
+            <h3>No results found, please try again.</h3>
+        </div>
+
         <div th:if="${jobs} and ${jobs.size()}">
+            <!--Display # of search results-->
+            <h3 th:text="${jobs.size()} + ' Result(s)'"></h3>
             <!--Each job takes up a separate table, with one field per row-->
             <table th:each="job, idx : ${jobs}" th:class="job-listing">
                 <tr th:each="idx : ${job}">
