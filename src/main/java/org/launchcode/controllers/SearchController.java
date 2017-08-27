@@ -26,16 +26,17 @@ public class SearchController {
     //    Display search results based on user selections - sends results to search view
     @RequestMapping (value = "results")
     public String results(Model model, @RequestParam String searchType, @RequestParam String searchTerm) {
+        ArrayList<HashMap<String, String>> jobs;
         if (searchType.equals("all")) {
-            ArrayList<HashMap<String, String>> jobs = JobData.findByValue(searchTerm);
+            jobs = JobData.findByValue(searchTerm);
             model.addAttribute("title", "All Jobs");
-            model.addAttribute("jobs", jobs);
         }
         else {
-            ArrayList<HashMap<String, String>> jobs = JobData.findByColumnAndValue(searchType, searchTerm);
-            model.addAttribute("jobs", jobs);
+            jobs = JobData.findByColumnAndValue(searchType, searchTerm);
         }
+        model.addAttribute("jobs", jobs);
         model.addAttribute("columns", ListController.columnChoices);
+        model.addAttribute("checked", searchType);
         return "search";
     }
 }
