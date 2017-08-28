@@ -56,7 +56,14 @@
             <table th:each="job, idx : ${jobs}" th:class="job-listing">
                 <tr th:each="idx : ${job}">
                     <td th:text="${#strings.capitalize(idx.key)}"></td>
-                    <td th:text="${idx.value}"></td>
+                    <td th:unless="${idx.key.equals('name')}">
+                        <a  th:href="@{/list/jobs(column=${idx.key},value=${idx.value})}"
+                            th:text="${idx.value}">
+                        </a>
+                    </td>
+                    <td th:if="${idx.key.equals('name')}" th:text="${idx.value}">
+
+                    </td>
                 </tr>
             </table>
         </div>
